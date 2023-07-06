@@ -1,0 +1,33 @@
+{
+  "name": "mini-react",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ext .ts,.jsx,.tsx --fix --quiet ./packages"
+  },
+  "keywords": [
+    "react",
+    "mini-react",
+    "react-dom"
+  ],
+  "author": "fengshaojian123 <fsj930210@163.com>",
+  "license": "MIT",
+  "autorName": "fengshaojian",
+  "autorUrl": "https://www.github.com/fsj930210",
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.6",
+    "@commitlint/config-conventional": "^17.6.6",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "commitlint": "^17.6.6",
+    "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin,": "link:@typescript-eslint/eslint-plugin,",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "prettier": "^2.7.1",
+    "rollup": "^3.26.2",
+    "typescript": "^5.1.6"
+  }
+}
