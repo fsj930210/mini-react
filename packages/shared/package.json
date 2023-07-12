@@ -1,0 +1,10 @@
+{
+  "name": "shared",
+  "version": "0.0.1",
+  "description": "所有公用辅助方法及类型定义",
+  "keywords": [],
+  "author": "fengshaojian123 <fsj930210@163.com>",
+  "license": "MIT",
+  "autorName": "fengshaojian",
+  "autorUrl": "https://www.github.com/fsj930210"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "react",
+  "version": "0.0.1",
+  "description": "react公用方法",
+  "module": "index.ts",
+  "keywords": [],
+  "author": "fengshaojian123 <fsj930210@163.com>",
+  "license": "MIT",
+  "autorName": "fengshaojian",
+  "autorUrl": "https://www.github.com/fsj930210",
+  "dependencies": {
+		"shared": "workspace:*"
+	}
+}
