@@ -1,0 +1,14 @@
+{
+  "name": "react-reconciler",
+  "version": "0.0.1",
+  "description": "React调和器",
+  "module": "index.ts",
+  "keywords": [],
+  "dependencies": {
+    "shared": "workspace:*"
+  },
+  "author": "fengshaojian123 <fsj930210@163.com>",
+  "license": "MIT",
+  "autorName": "fengshaojian",
+  "autorUrl": "https://www.github.com/fsj930210"
+}
