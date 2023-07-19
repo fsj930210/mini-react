@@ -2,17 +2,36 @@
 
 import { beginWork } from './beginWork';
 import { completeWork } from './completeWork';
-import { FiberNoe } from './fiber';
+import { FiberNode, FiberRootNode, createWorkInProgress } from './fiber';
+import { HostRoot } from './workTags';
 
 // 全局指针 指向正在工作的fiberNode
-let workInProgress: FiberNoe | null = null;
+let workInProgress: FiberNode | null = null;
 
 // 初始化
-function prepareFreshStack(fiber: FiberNoe) {
-	workInProgress = fiber;
+function prepareFreshStack(root: FiberRootNode) {
+	workInProgress = createWorkInProgress(root.current, {});
 }
-
-function renderRoot(root: FiberNoe) {
+// 调度更新
+export function scheduleUpdateOnFiber(fiber: FiberNode) {
+	// TODO 调度功能
+	const root = markUpdateFromFiberToRoot(fiber);
+	renderRoot(root);
+}
+// 从传入的fiber向上遍历到直到root
+function markUpdateFromFiberToRoot(fiber: FiberNode) {
+	let node = fiber;
+	let parent = node.return;
+	while (parent !== null) {
+		node = parent;
+		parent = node.return;
+	}
+	if (node.tag === HostRoot) {
+		return node.stateNode;
+	}
+	return null;
+}
+function renderRoot(root: FiberRootNode) {
 	// 初始化 让workInProgress指向第一个fiberNode
 	prepareFreshStack(root);
 	// 递归
@@ -32,7 +51,7 @@ function workLoop() {
 	}
 }
 
-function performUnitOfWork(fiber: FiberNoe) {
+function performUnitOfWork(fiber: FiberNode) {
 	// next 可能是其子fiber或者为null 若为null则其没有子fiber
 	const next = beginWork(fiber);
 	// 执行完成后将pendingProps赋值给memoizedProps
@@ -46,8 +65,8 @@ function performUnitOfWork(fiber: FiberNoe) {
 	}
 }
 
-function completeUnitOfWork(fiber: FiberNoe) {
-	let node: FiberNoe | null = fiber;
+function completeUnitOfWork(fiber: FiberNode) {
+	let node: FiberNode | null = fiber;
 	do {
 		const sibling = completeWork(fiber);
 		// 如果还有兄弟节点则继续递归遍历

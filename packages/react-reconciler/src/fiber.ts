@@ -1,24 +1,26 @@
 import { Props, Key, Ref } from 'shared/ReactTypes';
 import { WorkTag } from './workTags';
 import { Flags, NoFlags } from './fiberFlags';
-
-export class FiberNoe {
+import { Container } from 'hostConfig';
+export class FiberNode {
 	tag: WorkTag;
 	key: Key;
-	stateNode: FiberNoe | null;
+	stateNode: FiberNode | FiberRootNode | null;
 	type: any;
 
-	return: FiberNoe | null;
-	sibling: FiberNoe | null;
-	child: FiberNoe | null;
+	return: FiberNode | null;
+	sibling: FiberNode | null;
+	child: FiberNode | null;
 	index: number;
 	ref: Ref;
 
 	pendingProps: Props | null;
 	memoizedProps: Props | null;
+	memoizedState: any;
 
-	alternate: FiberNoe | null;
+	alternate: FiberNode | null;
 	flgs: Flags;
+	updateQueue: unknown;
 	constructor(tag: WorkTag, pendingProps: Props, key: Key) {
 		// 作为实例用到的属性
 		this.tag = tag;
@@ -45,14 +47,56 @@ export class FiberNoe {
 		this.pendingProps = pendingProps;
 		// 工作完之后的props 确定的props
 		this.memoizedProps = null;
+		// 工作完之后的state 确定的state
+		this.memoizedState = null;
+		this.updateQueue = null;
+
 		// 缓存的另一个fiberNode current 和 workInprogress之间切换
 		// current -> 与视图中真实UI对应的fiberNode树
 		// workInprogress -> 触发更新后，正在reconciler中计算的fiberNode树
 		// 如果当前是current树，则alternate指向workInprogress树
 		this.alternate = null;
+
 		// 副作用
 		// 对于同一个节点，比较其ReactElement与fiberNode，生成子fiberNode。
 		// 并根据比较的结果生成不同标记（插入、删除、移动......），对应不同宿主环境API的执行
 		this.flgs = NoFlags;
 	}
 }
+
+// 全局唯一的根fiberNode
+export class FiberRootNode {
+	// 这个contanier是跟数组环境有关的，不能只设置为DOMElement
+	container: Container;
+	// 指向 hostRootFiber
+	current: FiberNode;
+	// 更新完成后指向的hostRootFiber
+	finishedWork: FiberNode | null;
+	constructor(container: Container, hostRootFiber: FiberNode) {
+		this.container = container;
+		this.current = hostRootFiber;
+		hostRootFiber.stateNode = this;
+		this.finishedWork = null;
+	}
+}
+
+export const createWorkInProgress = (current: FiberNode, pendingProps: Props): FiberNode => {
+	let wip = current.alternate;
+	if (wip === null) {
+		// mount
+		wip = new FiberNode(current.tag, pendingProps, current.key);
+		wip.stateNode = current.stateNode;
+		wip.alternate = current;
+		current.alternate = wip;
+	} else {
+		// update
+		wip.pendingProps = pendingProps;
+		wip.flgs = NoFlags;
+	}
+	wip.type = current.type;
+	wip.updateQueue = current.updateQueue;
+	wip.child = current.child;
+	wip.memoizedProps = current.memoizedProps;
+	wip.memoizedState = current.memoizedState;
+	return wip;
+};
