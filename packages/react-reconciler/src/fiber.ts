@@ -20,6 +20,7 @@ export class FiberNode {
 
 	alternate: FiberNode | null;
 	flgs: Flags;
+	subtreeFlags: Flags;
 	updateQueue: unknown;
 	constructor(tag: WorkTag, pendingProps: Props, key: Key) {
 		// 作为实例用到的属性
@@ -61,6 +62,8 @@ export class FiberNode {
 		// 对于同一个节点，比较其ReactElement与fiberNode，生成子fiberNode。
 		// 并根据比较的结果生成不同标记（插入、删除、移动......），对应不同宿主环境API的执行
 		this.flgs = NoFlags;
+		// 子树的Flags
+		this.subtreeFlags = NoFlags;
 	}
 }
 
@@ -92,6 +95,7 @@ export const createWorkInProgress = (current: FiberNode, pendingProps: Props): F
 		// update
 		wip.pendingProps = pendingProps;
 		wip.flgs = NoFlags;
+		wip.subtreeFlags = NoFlags;
 	}
 	wip.type = current.type;
 	wip.updateQueue = current.updateQueue;

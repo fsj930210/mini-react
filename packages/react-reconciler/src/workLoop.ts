@@ -16,7 +16,7 @@ function prepareFreshStack(root: FiberRootNode) {
 export function scheduleUpdateOnFiber(fiber: FiberNode) {
 	// TODO 调度功能
 	const root = markUpdateFromFiberToRoot(fiber);
-	renderRoot(root);
+	renderRoot(root as FiberRootNode);
 }
 // 从传入的fiber向上遍历到直到root
 function markUpdateFromFiberToRoot(fiber: FiberNode) {
@@ -46,6 +46,11 @@ function renderRoot(root: FiberRootNode) {
 			workInProgress = null;
 		}
 	} while (true);
+	// 完成后更新finishedWork为当前的wip树，后续这颗树会作为current树
+	const finishedWork = root.current.alternate;
+	root.finishedWork = finishedWork;
+	// wip fiberNode树 树中的flags
+	// commitRoot(root);
 }
 function workLoop() {
 	while (workInProgress !== null) {
