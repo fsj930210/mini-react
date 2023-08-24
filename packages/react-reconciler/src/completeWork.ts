@@ -1,4 +1,4 @@
-import { appendInitialChild, createInstance, createTextInstance } from 'hostConfig';
+import { Container, appendInitialChild, createInstance, createTextInstance } from 'hostConfig';
 import { FiberNode } from './fiber';
 import { HostComponent, HostRoot, HostText } from './workTags';
 import { NoFlags } from './fiberFlags';
@@ -41,7 +41,7 @@ export const completeWork = (wip: FiberNode) => {
 	}
 };
 
-function appendAllChildren(parent: FiberNode, wip: FiberNode) {
+function appendAllChildren(parent: Container, wip: FiberNode) {
 	let node = wip.child;
 	// 一个父节点可能有多个平级的子节点，需要递归
 	while (node !== null) {

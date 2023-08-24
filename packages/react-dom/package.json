@@ -1,0 +1,18 @@
+{
+  "name": "react-dom",
+  "version": "0.0.1",
+  "description": "",
+  "module": "index.ts",
+  "dependencies": {
+    "shared": "workspace:*",
+    "react-reconciler": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "workspace:*"
+  },
+  "keywords": [],
+  "author": "fengshaojian123 <fsj930210@163.com>",
+  "license": "MIT",
+  "autorName": "fengshaojian",
+  "autorUrl": "https://www.github.com/fsj930210"
+}

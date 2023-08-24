@@ -5,7 +5,8 @@ import { Container } from 'hostConfig';
 export class FiberNode {
 	tag: WorkTag;
 	key: Key;
-	stateNode: FiberNode | FiberRootNode | null;
+	// stateNode: FiberNode | FiberRootNode | null;
+	stateNode: any;
 	type: any;
 
 	return: FiberNode | null;

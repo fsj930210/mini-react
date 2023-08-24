@@ -44,7 +44,7 @@ export const processUpdateQueue = <State>(
 			result.memoziedState = action(baseState);
 		} else {
 			// baseState=1 update=2 -> memoziedState=2
-			result.memoziedState = baseState;
+			result.memoziedState = action;
 		}
 	}
 	return result;

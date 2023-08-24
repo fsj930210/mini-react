@@ -78,7 +78,7 @@ function performUnitOfWork(fiber: FiberNode) {
 function completeUnitOfWork(fiber: FiberNode) {
 	let node: FiberNode | null = fiber;
 	do {
-		const sibling = completeWork(fiber);
+		const sibling = completeWork(node);
 		// 如果还有兄弟节点则继续递归遍历
 		if (sibling !== null) {
 			workInProgress = sibling;
